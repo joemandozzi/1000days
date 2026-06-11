@@ -1,0 +1,234 @@
+/* ============================================================
+   CSS VARIABLES — swap these out when the Figma design lands
+   ============================================================ */
+:root {
+  /* Type scale */
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --size-base: 1.125rem;   /* 18px body */
+  --size-sm: 0.875rem;
+  --size-lg: 1.375rem;
+  --size-xl: 1.75rem;
+  --size-2xl: 2.25rem;
+  --leading-prose: 1.75;   /* generous for reading */
+  --measure: 66ch;         /* max line length for prose */
+
+  /* Light mode colors */
+  --color-bg: #faf9f7;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-accent: #8b4513;   /* warm saddle-brown, Bradbury-ish */
+  --color-border: #e5e0d8;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #16140f;
+    --color-surface: #1e1c17;
+    --color-text: #ede8df;
+    --color-muted: #9e9889;
+    --color-accent: #c8855a;
+    --color-border: #2e2b24;
+  }
+}
+
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 100%; }
+
+body {
+  font-family: var(--font-serif);
+  font-size: var(--size-base);
+  line-height: var(--leading-prose);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 0 var(--space-sm);
+}
+
+a { color: var(--color-accent); }
+a:hover { text-decoration: none; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+.site-title {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.site-header nav a {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--space-lg) 0 var(--space-xl);
+}
+
+.site-footer {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   DAY HEADER
+   ============================================================ */
+.day-header {
+  margin-bottom: var(--space-lg);
+}
+
+.day-date {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.streak-display {
+  font-family: var(--font-sans);
+  font-size: var(--size-lg);
+  font-weight: 600;
+  color: var(--color-accent);
+  min-height: 1.5em;
+}
+
+.mark-read-btn {
+  margin-top: var(--space-sm);
+  padding: 0.5em 1.25em;
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.mark-read-btn:hover { background: var(--color-accent); color: var(--color-bg); }
+
+/* ============================================================
+   WORK ARTICLES
+   ============================================================ */
+.work {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+.work:last-child { border-bottom: none; }
+
+.work-header { margin-bottom: var(--space-md); }
+
+.work-type {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.work-title {
+  font-size: var(--size-2xl);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: var(--space-xs);
+}
+
+.work-byline {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.work-meta {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+}
+
+.work-text {
+  font-size: var(--size-base);
+  line-height: var(--leading-prose);
+}
+
+.work-text p { margin-bottom: 1em; }
+
+/* Poems: preserve line breaks, don't justify */
+.work--poem .work-text {
+  white-space: pre-wrap;
+  font-style: italic;
+}
+
+.work-source {
+  margin-top: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+.about h1 {
+  font-size: var(--size-2xl);
+  font-weight: 400;
+  margin-bottom: var(--space-md);
+}
+
+.about blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: var(--space-md);
+  margin: var(--space-md) 0;
+  font-style: italic;
+}
+
+.about blockquote cite {
+  display: block;
+  margin-top: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  font-style: normal;
+  color: var(--color-muted);
+}
+
+.about p { margin-bottom: 1em; }

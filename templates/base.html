@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}1,000 Nights{% endblock %}</title>
+  <link rel="stylesheet" href="{{ root }}static/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{{ root }}index.html" class="site-title">1,000 Nights</a>
+    <nav>
+      <a href="{{ root }}about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>One short story, one poem, one essay — every night for 1,000 nights.</p>
+  </footer>
+
+  <script src="{{ root }}static/streak.js"></script>
+</body>
+</html>

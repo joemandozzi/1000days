@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ date_display }} — 1,000 Nights{% endblock %}
+
+{% block content %}
+<section class="day-header">
+  <h1 class="day-date">{{ date_display }}</h1>
+  <div class="streak-display" id="streak-display">
+    <!-- JS fills this in from localStorage -->
+  </div>
+  <button class="mark-read-btn" id="mark-read-btn">Mark tonight complete</button>
+</section>
+
+{% for work in [story, poem, essay] %}
+{% if work %}
+<article class="work work--{{ work.type }}">
+  <header class="work-header">
+    <span class="work-type">{{ work.type | title }}</span>
+    <h2 class="work-title">{{ work.title }}</h2>
+    <p class="work-byline">{{ work.author }}{% if work.year %} · {{ work.year }}{% endif %}</p>
+    <p class="work-meta">{{ work.word_count | default(0) | int | wordcount_label }}</p>
+  </header>
+  <div class="work-text">
+    {{ work.text | nl2br }}
+  </div>
+  {% if work.source_url %}
+  <footer class="work-source">
+    <a href="{{ work.source_url }}" target="_blank" rel="noopener">Source</a>
+    {% if work.source_name %} · {{ work.source_name }}{% endif %}
+  </footer>
+  {% endif %}
+</article>
+{% endif %}
+{% endfor %}
+{% endblock %}
