@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}1,000 Nights{% endblock %}</title>
+
+  <meta name="description" content="One short story, one poem, and one essay — every night for 1,000 nights. All public domain.">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="1,000 Nights">
+  <meta property="og:title" content="{% block og_title %}1,000 Nights{% endblock %}">
+  <meta property="og:description" content="One short story, one poem, and one essay — every night for 1,000 nights. All public domain.">
+  <meta property="og:type" content="website">
+
   <link rel="stylesheet" href="{{ root }}static/style.css">
 </head>
 <body>
