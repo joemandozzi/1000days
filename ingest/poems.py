@@ -34,6 +34,7 @@ POETS = [
     "A.E. Housman",
     "Rudyard Kipling",
     "William Butler Yeats",
+    "Rupert Brooke",
 ]
 
 # Rough birth years; used to estimate poem year as author's active period midpoint.
@@ -59,6 +60,7 @@ POET_YEARS = {
     "A.E. Housman": 1896,
     "Rudyard Kipling": 1890,
     "William Butler Yeats": 1910,
+    "Rupert Brooke": 1914,
 }
 
 BASE_URL = "https://poetrydb.org"
