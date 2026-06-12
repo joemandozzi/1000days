@@ -48,27 +48,31 @@
   </div>
 
   <!-- ════════════════════════════════════════════
-       READER — cream, normal page flow
+       READER — matches Day Page — Desktop (1440)
   ════════════════════════════════════════════ -->
-  <div class="reader" id="reader">
-    <div class="reader-inner">
-      <header class="reader-header" data-date="{{ date_iso }}">
-        <div class="reader-date">{{ date_display }}</div>
-        <div class="reader-readtime">~{{ read_time }} min read tonight</div>
-      </header>
+  <div class="reader" id="reader" data-date="{{ date_iso }}">
 
-      <div class="reader-streak-row">
-        <span class="streak-display" id="streak-display"></span>
-        <button class="mark-read-btn" id="mark-read-btn">Mark tonight complete</button>
+    <header class="reader-header">
+      <div class="reader-brand">
+        <div class="reader-wordmark">1,000 NIGHTS</div>
+        <div class="reader-date">{{ date_display | upper }}</div>
       </div>
+      <div class="reader-header-right">
+        <div class="reader-streak-pill" id="reader-streak-pill">
+          <span id="reader-streak-text"></span>
+        </div>
+        <button class="mark-read-btn" id="mark-read-btn">MARK COMPLETE</button>
+        <a href="{{ root }}about.html" class="reader-about">ABOUT</a>
+      </div>
+    </header>
 
-      <nav class="reader-tabs" aria-label="Content type">
-        <button class="reader-tab" data-format="story">Story</button>
-        <button class="reader-tab" data-format="poem">Poem</button>
-        <button class="reader-tab" data-format="essay">Essay</button>
-      </nav>
+    <nav class="reader-nav" aria-label="Select reading type">
+      <button class="reader-tab" data-format="poem">POEM</button>
+      <button class="reader-tab" data-format="essay">ESSAY</button>
+      <button class="reader-tab" data-format="story">STORY</button>
+    </nav>
 
-      <div class="reader-works">
+    <div class="reader-works">
 
         {% if story %}
         <article class="work work--story" id="work-story">
@@ -119,7 +123,7 @@
         {% endif %}
 
       </div>
-    </div>
+
   </div>
 
   <script src="{{ root }}static/streak.js"></script>

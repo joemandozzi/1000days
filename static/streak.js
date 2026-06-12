@@ -48,29 +48,37 @@
     renderReaderStreak(newStreak);
 
     var btn = document.getElementById("mark-read-btn");
-    if (btn) { btn.textContent = "✓ Night complete"; btn.disabled = true; }
+    if (btn) { btn.textContent = "✓ COMPLETE"; btn.disabled = true; }
   }
 
   function renderReaderStreak(streak) {
-    var el = document.getElementById("streak-display");
-    if (!el) return;
-    el.textContent = streak > 0
-      ? "🔥 " + streak + " night streak"
-      : "Start your 1,000 nights tonight.";
+    var pill = document.getElementById("reader-streak-pill");
+    var text = document.getElementById("reader-streak-text");
+    if (!pill || !text) return;
+    if (streak > 0) {
+      text.textContent = streak + " NIGHT STREAK";
+      pill.style.display = "block";
+    } else {
+      pill.style.display = "none";
+    }
+  }
+
+  function renderLandingStreak(streak) {
+    var pill = document.getElementById("landing-streak-pill");
+    var text = document.getElementById("landing-streak-text");
+    if (!pill || !text) return;
+    if (streak > 0) {
+      text.textContent = streak + " NIGHT STREAK";
+      pill.style.display = "block";
+    } else {
+      pill.style.display = "none";
+    }
   }
 
   /* ── landing ──────────────────────────────────────────── */
   function initLanding() {
     var state = getState();
-
-    if (state.streak > 0) {
-      var pill = document.getElementById("landing-streak-pill");
-      var text = document.getElementById("landing-streak-text");
-      if (pill && text) {
-        text.textContent = state.streak + " NIGHT STREAK";
-        pill.style.display = "block";
-      }
-    }
+    renderLandingStreak(state.streak);
 
     document.querySelectorAll(".landing-tab").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -98,6 +106,7 @@
 
     var state = getState();
     renderReaderStreak(state.streak);
+    renderLandingStreak(state.streak);
 
     var btn = document.getElementById("mark-read-btn");
     if (btn) {
