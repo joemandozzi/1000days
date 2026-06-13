@@ -29,13 +29,7 @@
   <main class="about-main">
     <div class="about-media">
       <div class="about-video-embed">
-        <iframe
-          src="https://www.youtube.com/embed/REOntvyroqQ?start=691"
-          title="Ray Bradbury on reading"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <div id="about-player"></div>
       </div>
     </div>
     <div class="about-content">
@@ -50,5 +44,34 @@
     <p>One short story, one poem, one essay — every night for 1,000 nights.</p>
   </footer>
 
+  <script>
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    var ytPlayer;
+    var pauseAt = 743; // 12:23
+    var checkInterval;
+
+    window.onYouTubeIframeAPIReady = function () {
+      ytPlayer = new YT.Player('about-player', {
+        videoId: 'REOntvyroqQ',
+        playerVars: { start: 691, rel: 0 },
+        events: { onStateChange: onPlayerStateChange }
+      });
+    };
+
+    function onPlayerStateChange(e) {
+      clearInterval(checkInterval);
+      if (e.data === YT.PlayerState.PLAYING) {
+        checkInterval = setInterval(function () {
+          if (ytPlayer.getCurrentTime() >= pauseAt) {
+            ytPlayer.pauseVideo();
+            clearInterval(checkInterval);
+          }
+        }, 250);
+      }
+    }
+  </script>
 </body>
 </html>
