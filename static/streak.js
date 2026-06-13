@@ -8,8 +8,8 @@
  * (returning user), then its blue drop shadow pulses.
  *
  * Streak state in localStorage:
- *   bradbury_streak    : number — current consecutive-night count
- *   bradbury_last_read : string — ISO date of last completed night
+ *   bradbury_streak    : number — current consecutive-day count
+ *   bradbury_last_read : string — ISO date of last completed day
  */
 (function () {
   var STREAK_KEY     = "bradbury_streak";
@@ -63,7 +63,7 @@
     var text = document.getElementById("reader-streak-text");
     if (!pill || !text) return;
     if (streak > 0) {
-      text.textContent = streak + " NIGHT STREAK";
+      text.textContent = streak + " DAY STREAK";
       pill.style.transition = "none";
       pill.style.opacity    = "1";
       pill.style.display    = "block";
@@ -78,7 +78,7 @@
     var text = document.getElementById("reader-streak-text");
     if (!pill || !text) return;
 
-    text.textContent = streak + " NIGHT STREAK";
+    text.textContent = streak + " DAY STREAK";
 
     var alreadyVisible = pill.style.display === "block";
 
@@ -112,7 +112,7 @@
     var text = document.getElementById("landing-streak-text");
     if (!pill || !text) return;
     if (streak > 0) {
-      text.textContent  = streak + " NIGHT STREAK";
+      text.textContent  = streak + " DAY STREAK";
       pill.style.display = "block";
     } else {
       pill.style.display = "none";
