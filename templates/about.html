@@ -16,9 +16,14 @@
 </head>
 <body class="about-page">
 
-  <header class="about-header">
-    <a href="{{ root }}index.html" class="about-wordmark">1,000 Nights</a>
-    <span class="about-nav-label">About</span>
+  <header class="reader-header">
+    <div class="reader-brand">
+      <a href="{{ root }}index.html" class="reader-wordmark about-wordmark-link">1,000 NIGHTS</a>
+      <div class="reader-date">{{ date_display | upper }}</div>
+    </div>
+    <div class="reader-header-right">
+      <span class="reader-about">ABOUT</span>
+    </div>
   </header>
 
   <main class="about-main">

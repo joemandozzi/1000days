@@ -340,27 +340,9 @@ body.about-page {
   min-height: 100vh;
 }
 
-.about-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  padding: 0 64px;
-  border-bottom: 1px solid #E0D9D0;
-  flex-shrink: 0;
-}
-
-.about-wordmark {
-  font-size: 15px;
-  font-weight: 700;
-  color: #000;
+/* Make the reader wordmark a link on the about page */
+.about-wordmark-link {
   text-decoration: none;
-}
-
-.about-nav-label {
-  font-size: 14px;
-  font-weight: 400;
-  color: #6B6761;
 }
 
 .about-main {
@@ -368,7 +350,7 @@ body.about-page {
   display: grid;
   grid-template-columns: 465px 1fr;
   gap: 0 66px;
-  padding: 137px 107px 80px 134px;
+  padding: 80px 107px 80px 134px;
   align-items: start;
 }
 
@@ -492,10 +474,6 @@ body.about-page {
   .work-title { font-size: 20px; }
 
   /* About page mobile */
-  .about-header {
-    padding: 0 24px;
-  }
-
   .about-main {
     grid-template-columns: 1fr;
     padding: 48px 24px 0;
@@ -504,6 +482,5 @@ body.about-page {
 
   .about-footer {
     padding: 0 24px;
-    margin-top: 64px;
   }
 }

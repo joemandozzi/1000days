@@ -96,7 +96,7 @@ def build(target_date: date):
     (dated_dir / "index.html").write_text(day_html_dated, encoding="utf-8")
 
     # Render the about page.
-    about_html = env.get_template("about.html").render(root="")
+    about_html = env.get_template("about.html").render(root="", date_display=date_display)
     (SITE / "about.html").write_text(about_html, encoding="utf-8")
 
     print(f"Built site/ for {date_display}")
