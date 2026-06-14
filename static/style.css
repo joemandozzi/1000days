@@ -367,12 +367,6 @@ body.about-page {
   transform-origin: right center;
 }
 
-.tv-backing {
-  position: absolute;
-  inset: 0;
-  background: #ffffff;
-  clip-path: url(#tv-frame-clip);
-}
 
 .tv-screen {
   /* Screen hole coordinates derived from Figma node positions:
