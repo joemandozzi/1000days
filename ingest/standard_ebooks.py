@@ -111,6 +111,9 @@ STORY_REPOS = [
     "stanley-g-weinbaum_short-fiction",
     # Detective / genre
     "dashiell-hammett_continental-op-stories",
+    # Literary fiction — early 20th century
+    "sherwood-anderson_winesburg-ohio",
+    "jean-toomer_cane",
 ]
 
 ESSAY_REPOS = [
@@ -129,7 +132,7 @@ ESSAY_REPOS = [
 
 # ── GitHub helpers ─────────────────────────────────────────────────────────────
 
-def gh_get(url: str) -> dict | list | None:
+def gh_get(url: str):
     for attempt in range(3):
         r = requests.get(url, headers=HEADERS, timeout=20)
         if r.status_code == 200:
@@ -182,7 +185,7 @@ def get_metadata(repo: str) -> dict:
     return {"title": title, "author": author, "year": year}
 
 
-def parse_xhtml(repo: str, filename: str) -> str | None:
+def parse_xhtml(repo: str, filename: str):
     url = f"{RAW_BASE}/{repo}/master/src/epub/text/{filename}"
     r = requests.get(url, headers=HEADERS, timeout=15)
     if r.status_code != 200:
