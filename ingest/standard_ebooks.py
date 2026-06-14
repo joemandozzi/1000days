@@ -187,6 +187,7 @@ AUTHOR_HISTORICAL_YEARS = {
     "Rudyard Kipling":         1895,
     "Saki":                    1910,
     "Selma Lagerlöf":          1906,
+    "Sherwood Anderson":       1919,
     "Stanley G. Weinbaum":     1934,
     "Thomas Hardy":            1894,
     "Thomas Paine":            1786,
