@@ -127,6 +127,74 @@ ESSAY_REPOS = [
     "max-beerbohm_the-works-of-max-beerbohm",
 ]
 
+# ── Historical publication years (overrides SE edition date) ─────────────────
+# dc:date in SE OPF is when SE published the edition, not the original work.
+# This maps canonical author names (as SE writes them) to approximate original
+# publication years so the site displays sensible dates.
+AUTHOR_HISTORICAL_YEARS = {
+    "A. N. Afanasyev":         1860,
+    "Akutagawa Ryūnosuke":     1922,
+    "Aleksandr Kuprin":        1905,
+    "Algernon Blackwood":      1910,
+    "Ambrose Bierce":          1892,
+    "Anton Chekhov":           1893,
+    "Arthur Machen":           1900,
+    "Beatrix Potter":          1908,
+    "Catherine Louisa Pirkis": 1893,
+    "Dashiell Hammett":        1929,
+    "E. F. Benson":            1920,
+    "E. M. Forster":           1911,
+    "Edgar Allan Poe":         1843,
+    "Ernest Hemingway":        1925,
+    "Errico Malatesta":        1907,
+    "F. Scott Fitzgerald":     1925,
+    "Frank Hamilton Cushing":  1891,
+    "Fyodor Sologub":          1905,
+    "G. K. Chesterton":        1910,
+    "George MacDonald":        1875,
+    "Gustave Flaubert":        1860,
+    "Guy de Maupassant":       1885,
+    "H. G. Wells":             1898,
+    "H. P. Lovecraft":         1925,
+    "H. Rider Haggard":        1895,
+    "Henry David Thoreau":     1854,
+    "Herman Melville":         1853,
+    "Hjalmar Söderberg":       1912,
+    "Ivan Bunin":              1908,
+    "J. Sheridan Le Fanu":     1872,
+    "Jacob Grimm":             1837,
+    "James Stephens":          1916,
+    "Jonas Lie":               1891,
+    "Joseph Jacobs":           1892,
+    "Kate Chopin":             1897,
+    "Leo Tolstoy":             1886,
+    "Leonid Andreyev":         1908,
+    "Lord Dunsany":            1912,
+    "M. R. James":             1910,
+    "Mary Shelley":            1826,
+    "Max Beerbohm":            1910,
+    "Nella Larsen":            1926,
+    "Nikolai Gogol":           1836,
+    "O. Henry":                1906,
+    "Oscar Wilde":             1892,
+    "P. G. Wodehouse":         1919,
+    "Ralph Waldo Emerson":     1850,
+    "Ring Lardner":            1920,
+    "Robert Louis Stevenson":  1886,
+    "Rudyard Kipling":         1895,
+    "Saki":                    1910,
+    "Selma Lagerlöf":          1906,
+    "Stanley G. Weinbaum":     1934,
+    "Thomas Hardy":            1894,
+    "Thomas Paine":            1786,
+    "Vladimir Korolenko":      1890,
+    "Voltairine de Cleyre":    1905,
+    "Vsevolod Garshin":        1883,
+    "William Hazlitt":         1822,
+    "Xavier de Maistre":       1800,
+    "Zitkála-Šá":              1901,
+}
+
 # ── GitHub helpers ─────────────────────────────────────────────────────────────
 
 def gh_get(url: str) -> dict | list | None:
@@ -177,7 +245,15 @@ def get_metadata(repo: str) -> dict:
     if dc_date:
         m = re.search(r"\d{4}", dc_date.get_text())
         if m:
-            year = int(m.group())
+            y = int(m.group())
+            # dc:date is the SE edition date, not original publication.
+            # Only trust it if it predates the modern SE project (~2014).
+            if y < 2014:
+                year = y
+
+    # Fall back to known historical years when SE edition date is useless.
+    if year is None or year > 1928:
+        year = AUTHOR_HISTORICAL_YEARS.get(author, year)
 
     return {"title": title, "author": author, "year": year}
 
