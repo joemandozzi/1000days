@@ -354,20 +354,40 @@ body.about-page {
   align-items: start;
 }
 
-.about-video-embed {
+/* TV frame + video overlay */
+.tv-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 465 / 299;
+  aspect-ratio: 863 / 486;
 }
 
-/* #about-player div + the iframe the YT API injects both fill the container */
+.tv-screen {
+  /* Screen hole coordinates derived from Figma node positions:
+     TV at x:-76,y:120 (863×486); video placeholder at x:134,y:197 (465×299) */
+  position: absolute;
+  left: 24.33%;
+  top: 15.84%;
+  width: 53.88%;
+  height: 61.52%;
+}
+
 #about-player,
-.about-video-embed iframe {
+.tv-screen iframe {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   border: none !important;
+}
+
+.tv-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 .about-heading {
