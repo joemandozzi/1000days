@@ -370,7 +370,7 @@ body.about-page {
 .tv-backing {
   position: absolute;
   inset: 0;
-  background: #0d0805;
+  background: #ffffff;
   clip-path: url(#tv-frame-clip);
 }
 
