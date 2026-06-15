@@ -33,29 +33,29 @@ VOLUMES = [
 ]
 
 # Hand-curated list of essays known to be in these volumes.
-# Format: (title_fragment, author, approx_year)
+# Format: (title_fragment, author)
 # title_fragment is a substring of the essay's actual header — enough to find it.
 SEED_ESSAYS = [
     # Vol 27 — Sidney to Macaulay
-    ("Of Studies",             "Francis Bacon",          1597),
-    ("Of Truth",               "Francis Bacon",          1625),
-    ("Of Death",               "Francis Bacon",          1612),
-    ("Of Friendship",          "Francis Bacon",          1612),
-    ("Of Marriage and Single Life", "Francis Bacon",     1612),
-    ("Of Great Place",         "Francis Bacon",          1612),
-    ("Of Travel",              "Francis Bacon",          1625),
-    ("Of Gardens",             "Francis Bacon",          1625),
-    ("Of Adversity",           "Francis Bacon",          1612),
+    ("Of Studies",             "Francis Bacon"),
+    ("Of Truth",               "Francis Bacon"),
+    ("Of Death",               "Francis Bacon"),
+    ("Of Friendship",          "Francis Bacon"),
+    ("Of Marriage and Single Life", "Francis Bacon"),
+    ("Of Great Place",         "Francis Bacon"),
+    ("Of Travel",              "Francis Bacon"),
+    ("Of Gardens",             "Francis Bacon"),
+    ("Of Adversity",           "Francis Bacon"),
     # Vol 28 — English and American
-    ("Self-Reliance",          "Ralph Waldo Emerson",    1841),
-    ("Nature",                 "Ralph Waldo Emerson",    1836),
-    ("The American Scholar",   "Ralph Waldo Emerson",    1837),
-    ("Compensation",           "Ralph Waldo Emerson",    1841),
-    ("Circles",                "Ralph Waldo Emerson",    1841),
-    ("Thoreau",                "Ralph Waldo Emerson",    1862),
-    ("Walking",                "Henry David Thoreau",    1862),
-    ("Civil Disobedience",     "Henry David Thoreau",    1849),
-    ("On the Duty of Civil Disobedience", "Henry David Thoreau", 1849),
+    ("Self-Reliance",          "Ralph Waldo Emerson"),
+    ("Nature",                 "Ralph Waldo Emerson"),
+    ("The American Scholar",   "Ralph Waldo Emerson"),
+    ("Compensation",           "Ralph Waldo Emerson"),
+    ("Circles",                "Ralph Waldo Emerson"),
+    ("Thoreau",                "Ralph Waldo Emerson"),
+    ("Walking",                "Henry David Thoreau"),
+    ("Civil Disobedience",     "Henry David Thoreau"),
+    ("On the Duty of Civil Disobedience", "Henry David Thoreau"),
 ]
 
 # Approximate word-count cutoff; essays over this are trimmed for display.
@@ -131,7 +131,7 @@ def ingest_essays():
 
         text = clean_gutenberg_text(raw)
 
-        for title_frag, author, year in SEED_ESSAYS:
+        for title_frag, author in SEED_ESSAYS:
             essay_text = find_essay_text(text, title_frag)
             if not essay_text:
                 # Try the other volume.
@@ -145,7 +145,7 @@ def ingest_essays():
                 type="essay",
                 title=title_frag,
                 author=author,
-                year=year,
+                year=None,
                 word_count=word_count,
                 text=essay_text,
                 source_url=f"https://www.gutenberg.org/ebooks/{vol['gutenberg_id']}",

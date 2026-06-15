@@ -37,31 +37,6 @@ POETS = [
     "Rupert Brooke",
 ]
 
-# Rough birth years; used to estimate poem year as author's active period midpoint.
-# Good enough for display; not authoritative.
-POET_YEARS = {
-    "Emily Dickinson": 1860,
-    "Walt Whitman": 1865,
-    "William Blake": 1794,
-    "John Keats": 1820,
-    "Percy Bysshe Shelley": 1819,
-    "Alfred Lord Tennyson": 1850,
-    "Robert Browning": 1855,
-    "Christina Rossetti": 1865,
-    "Gerard Manley Hopkins": 1890,
-    "Edgar Allan Poe": 1845,
-    "Henry Wadsworth Longfellow": 1855,
-    "Ralph Waldo Emerson": 1850,
-    "William Wordsworth": 1807,
-    "Samuel Taylor Coleridge": 1798,
-    "Lord Byron": 1818,
-    "Matthew Arnold": 1860,
-    "Thomas Hardy": 1898,
-    "A.E. Housman": 1896,
-    "Rudyard Kipling": 1890,
-    "William Butler Yeats": 1910,
-    "Rupert Brooke": 1914,
-}
 
 BASE_URL = "https://poetrydb.org"
 
@@ -88,7 +63,6 @@ def ingest_poems():
             continue
 
         count = 0
-        year = POET_YEARS.get(poet)
         for p in poems:
             title = p.get("title", "").strip()
             lines = p.get("lines", [])
@@ -100,7 +74,7 @@ def ingest_poems():
                 type="poem",
                 title=title,
                 author=poet,
-                year=year,
+                year=None,
                 word_count=word_count,
                 text=text,
                 source_url=f"https://poetrydb.org/title/{requests.utils.quote(title)}",

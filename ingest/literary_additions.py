@@ -19,7 +19,6 @@ HEADERS_REQ = {"User-Agent": "bradbury-literary-ingest/1.0"}
 # Each entry:
 #   id        — Gutenberg ID
 #   author    — canonical author name
-#   year      — original publication year
 #   type      — 'story' or 'essay'
 #   toc_end   — approx char position where TOC ends and content begins
 #   case      — 'upper' (ALL-CAPS headers) | 'title' (Title Case headers)
@@ -30,7 +29,7 @@ HEADERS_REQ = {"User-Agent": "bradbury-literary-ingest/1.0"}
 COLLECTIONS = [
     # ── STORIES ────────────────────────────────────────────────────────────
     {
-        "id": 13555, "author": "Willa Cather", "year": 1920, "type": "story",
+        "id": 13555, "author": "Willa Cather", "type": "story",
         "toc_end": 800, "case": "title",
         "titles": [
             "Coming, Aphrodite!",
@@ -44,7 +43,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 346, "author": "Willa Cather", "year": 1905, "type": "story",
+        "id": 346, "author": "Willa Cather", "type": "story",
         "toc_end": 460, "case": "title",
         "titles": [
             "On the Divide",
@@ -60,7 +59,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 45524, "author": "Stephen Crane", "year": 1898, "type": "story",
+        "id": 45524, "author": "Stephen Crane", "type": "story",
         "toc_end": 2400, "case": "upper",
         "titles": [
             "THE OPEN BOAT",
@@ -73,7 +72,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 68542, "author": "Theodore Dreiser", "year": 1918, "type": "story",
+        "id": 68542, "author": "Theodore Dreiser", "type": "story",
         "toc_end": 1100, "case": "upper",
         "titles": [
             "FREE",
@@ -86,13 +85,13 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 306, "author": "Edith Wharton", "year": 1904, "type": "story",
+        "id": 306, "author": "Edith Wharton", "type": "story",
         "toc_end": 3000, "case": "upper",
         "skip": ["THE EARLY SHORT FICTION OF EDITH WHARTON"],
     },
     # ── ESSAYS ─────────────────────────────────────────────────────────────
     {
-        "id": 67628, "author": "Randolph Bourne", "year": 1913, "type": "essay",
+        "id": 67628, "author": "Randolph Bourne", "type": "essay",
         "toc_end": 1100, "case": "upper",
         "titles": [
             "YOUTH",
@@ -111,7 +110,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 2398, "author": "Walter Pater", "year": 1873, "type": "essay",
+        "id": 2398, "author": "Walter Pater", "type": "essay",
         "toc_end": 50000, "case": "upper",
         "titles": [
             "PREFACE",
@@ -128,7 +127,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 29220, "author": "Virginia Woolf", "year": 1921, "type": "essay",
+        "id": 29220, "author": "Virginia Woolf", "type": "essay",
         "toc_end": 840, "case": "upper",
         "titles": [
             "A HAUNTED HOUSE",
@@ -142,7 +141,7 @@ COLLECTIONS = [
         ],
     },
     {
-        "id": 31017, "author": "James Huneker", "year": 1915, "type": "essay",
+        "id": 31017, "author": "James Huneker", "type": "essay",
         "toc_end": 30000, "case": "upper",
         "skip": ["IVORY APES AND PEACOCKS", "PUBLISHED SEPTEMBER,", "CONTENTS",
                  "PAGE", "ALL RIGHTS RESERVED"],
@@ -265,7 +264,6 @@ def already_exists(title: str, author: str) -> bool:
 def ingest_collection(col: dict) -> int:
     gid    = col["id"]
     author = col["author"]
-    year   = col["year"]
     wtype  = col["type"]
 
     print(f"\n  Fetching PG#{gid} ({author})...")
@@ -297,7 +295,7 @@ def ingest_collection(col: dict) -> int:
             type=wtype,
             title=display_title,
             author=author,
-            year=year,
+            year=None,
             word_count=words,
             text=body,
             source_url=f"https://www.gutenberg.org/ebooks/{gid}",

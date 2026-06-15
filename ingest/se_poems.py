@@ -25,14 +25,13 @@ SKIP_FILES = {
     "loi.xhtml", "acknowledgments.xhtml",
 }
 
-# (repo, author, year)
 POETRY_REPOS = [
-    ("robert-frost_north-of-boston",             "Robert Frost",          1914),
-    ("robert-frost_new-hampshire",               "Robert Frost",          1923),
-    ("edgar-lee-masters_spoon-river-anthology",  "Edgar Lee Masters",     1915),
-    ("edward-thomas_poetry",                     "Edward Thomas",         1917),
-    ("wilfred-owen_poetry",                      "Wilfred Owen",          1920),
-    ("william-carlos-williams_poetry",           "William Carlos Williams", 1921),
+    ("robert-frost_north-of-boston",             "Robert Frost"),
+    ("robert-frost_new-hampshire",               "Robert Frost"),
+    ("edgar-lee-masters_spoon-river-anthology",  "Edgar Lee Masters"),
+    ("edward-thomas_poetry",                     "Edward Thomas"),
+    ("wilfred-owen_poetry",                      "Wilfred Owen"),
+    ("william-carlos-williams_poetry",           "William Carlos Williams"),
 ]
 
 
@@ -91,7 +90,7 @@ def extract_poems(xhtml: str) -> list[tuple[str, str]]:
     return results
 
 
-def ingest_repo(repo: str, author: str, year: int):
+def ingest_repo(repo: str, author: str):
     print(f"\n  {author} ({repo})")
     files = get_text_files(repo)
     count = 0
@@ -106,7 +105,7 @@ def ingest_repo(repo: str, author: str, year: int):
                 type="poem",
                 title=title,
                 author=author,
-                year=year,
+                year=None,
                 word_count=word_count,
                 text=text,
                 source_url=f"https://standardebooks.org/ebooks/{repo}",
@@ -120,8 +119,8 @@ def ingest_repo(repo: str, author: str, year: int):
 def main():
     init_db()
     total = 0
-    for repo, author, year in POETRY_REPOS:
-        total += ingest_repo(repo, author, year)
+    for repo, author in POETRY_REPOS:
+        total += ingest_repo(repo, author)
     print(f"\nDone. Total poems in DB: {count_by_type().get('poem', 0)}")
 
 

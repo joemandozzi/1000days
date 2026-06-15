@@ -15,37 +15,37 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import requests
 from corpus.db import init_db, insert_work, count_by_type
 
-# Each entry: (title, author, year, gutenberg_id)
+# Each entry: (title, author, gutenberg_id)
 # ALL IDs are verified standalone texts — the whole file IS the story/novella.
 # No collection extraction needed.
 STORIES = [
     # Confirmed standalone short stories
-    ("The Yellow Wallpaper",                    "Charlotte Perkins Gilman", 1892, 1952),
-    ("The Cask of Amontillado",                 "Edgar Allan Poe",          1846, 1063),
-    ("An Occurrence at Owl Creek Bridge",        "Ambrose Bierce",           1890, 375),
-    ("The Monkey's Paw",                        "W.W. Jacobs",              1902, 12122),
-    ("The Gift of the Magi",                    "O. Henry",                 1905, 7256),
-    ("The Ransom of Red Chief",                 "O. Henry",                 1910, 7261),
+    ("The Yellow Wallpaper",                    "Charlotte Perkins Gilman", 1952),
+    ("The Cask of Amontillado",                 "Edgar Allan Poe",          1063),
+    ("An Occurrence at Owl Creek Bridge",        "Ambrose Bierce",           375),
+    ("The Monkey's Paw",                        "W.W. Jacobs",              12122),
+    ("The Gift of the Magi",                    "O. Henry",                 7256),
+    ("The Ransom of Red Chief",                 "O. Henry",                 7261),
     # Confirmed standalone novellas (whole file = the work)
-    ("Bartleby, the Scrivener",                 "Herman Melville",          1853, 11231),
-    ("Daisy Miller",                            "Henry James",              1878, 208),
-    ("The Strange Case of Dr. Jekyll and Mr. Hyde", "Robert Louis Stevenson", 1886, 43),
-    ("The Great God Pan",                       "Arthur Machen",            1894, 389),
-    ("The Turn of the Screw",                   "Henry James",              1898, 209),
-    ("A Christmas Carol",                       "Charles Dickens",          1843, 46),
-    ("The Time Machine",                        "H.G. Wells",               1895, 35),
-    ("The Island of Doctor Moreau",             "H.G. Wells",               1896, 159),
+    ("Bartleby, the Scrivener",                 "Herman Melville",          11231),
+    ("Daisy Miller",                            "Henry James",              208),
+    ("The Strange Case of Dr. Jekyll and Mr. Hyde", "Robert Louis Stevenson", 43),
+    ("The Great God Pan",                       "Arthur Machen",            389),
+    ("The Turn of the Screw",                   "Henry James",              209),
+    ("A Christmas Carol",                       "Charles Dickens",          46),
+    ("The Time Machine",                        "H.G. Wells",               35),
+    ("The Island of Doctor Moreau",             "H.G. Wells",               159),
     # Collections where extraction works reliably (title is the first story)
-    ("The Legend of Sleepy Hollow",             "Washington Irving",        1820, 41),
-    ("Rip Van Winkle",                          "Washington Irving",        1819, 41),
-    ("The Man Who Would Be King",               "Rudyard Kipling",          1888, 8153),
-    ("The Lifted Veil",                         "George Eliot",             1859, 2165),
-    ("The Jolly Corner",                        "Henry James",              1908, 1190),
-    ("The Fall of the House of Usher",          "Edgar Allan Poe",          1839, 932),
-    ("The Call of the Wild",                    "Jack London",              1903, 215),
-    ("To Build a Fire",                         "Jack London",              1908, 1160),
-    ("The Call of the Wild",       "Jack London",              1903, 215),
-    ("To Build a Fire",            "Jack London",              1908, 1160),
+    ("The Legend of Sleepy Hollow",             "Washington Irving",        41),
+    ("Rip Van Winkle",                          "Washington Irving",        41),
+    ("The Man Who Would Be King",               "Rudyard Kipling",          8153),
+    ("The Lifted Veil",                         "George Eliot",             2165),
+    ("The Jolly Corner",                        "Henry James",              1190),
+    ("The Fall of the House of Usher",          "Edgar Allan Poe",          932),
+    ("The Call of the Wild",                    "Jack London",              215),
+    ("To Build a Fire",                         "Jack London",              1160),
+    ("The Call of the Wild",                    "Jack London",              215),
+    ("To Build a Fire",                         "Jack London",              1160),
 ]
 
 # Gutenberg plain-text URL pattern.
@@ -108,7 +108,7 @@ def ingest_stories():
     # Track which Gutenberg IDs we've already downloaded (some are collections).
     cache: dict[int, str] = {}
 
-    for title, author, year, gid in STORIES:
+    for title, author, gid in STORIES:
         print(f"  {title}...", end=" ", flush=True)
         try:
             if gid not in cache:
@@ -123,7 +123,7 @@ def ingest_stories():
                 type="story",
                 title=title,
                 author=author,
-                year=year,
+                year=None,
                 word_count=word_count,
                 text=text,
                 source_url=f"https://www.gutenberg.org/ebooks/{gid}",
