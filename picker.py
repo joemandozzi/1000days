@@ -14,7 +14,7 @@ Rules:
 """
 import random
 from datetime import date
-from corpus.db import get_works_by_type, mark_served
+from corpus.db import get_works_by_type
 
 WORDS_PER_MINUTE = 200
 MAX_MINUTES      = 60
@@ -41,12 +41,6 @@ def _pick(rng: random.Random, pool: list, max_words: int):
     return rng.choices(eligible, weights=weights, k=1)[0]
 
 
-def _get_pool(works: list) -> list:
-    """Prefer unserved; fall back to full pool if all served."""
-    unserved = [w for w in works if not w["served"]]
-    return unserved if unserved else list(works)
-
-
 def pick_for_date(target_date=None) -> dict:
     """
     Returns {'story': Row, 'poem': Row, 'essay': Row} for the given date.
@@ -60,26 +54,21 @@ def pick_for_date(target_date=None) -> dict:
     budget = COMBINED_MAX
 
     # 1. Poem first — almost always tiny, rarely uses more than 200 words.
-    poems = _get_pool(get_works_by_type("poem"))
+    poems = get_works_by_type("poem")
     poem  = _pick(rng, poems, budget - 200)  # leave room for story + essay
     result["poem"] = poem
     budget -= (poem["word_count"] or 0) if poem else 0
 
     # 2. Story — takes the biggest share, leave at least 500 words for an essay.
-    stories = _get_pool(get_works_by_type("story"))
+    stories = get_works_by_type("story")
     story   = _pick(rng, stories, budget - 500)
     result["story"] = story
     budget -= (story["word_count"] or 0) if story else 0
 
     # 3. Essay — whatever budget remains.
-    essays = _get_pool(get_works_by_type("essay"))
+    essays = get_works_by_type("essay")
     essay  = _pick(rng, essays, budget)
     result["essay"] = essay
-
-    # Mark all three as served.
-    for work in result.values():
-        if work:
-            mark_served(work["id"])
 
     return result
 

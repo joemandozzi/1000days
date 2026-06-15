@@ -31,7 +31,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build site
-        run: python build.py
+        run: python build.py --all
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3.0.1

@@ -101,7 +101,7 @@
           <div class="source-panel" id="story-panel-local">
             <header class="work-header">
               <h2 class="work-title">{{ story.title }}</h2>
-              <p class="work-byline">{{ story.author }}{% if story.year %} · {{ story.year }}{% endif %} · {{ story.word_count | default(0) | int | wordcount_label }}</p>
+              <p class="work-byline">{{ story.author }} · {{ story.word_count | default(0) | int | wordcount_label }}</p>
             </header>
             <div class="work-text">{{ story.text | nl2br }}</div>
             {% if story.source_url %}
@@ -129,7 +129,7 @@
           <header class="work-header">
             <span class="work-badge work-badge--poem">Poem</span>
             <h2 class="work-title">{{ poem.title }}</h2>
-            <p class="work-byline">{{ poem.author }}{% if poem.year %} · {{ poem.year }}{% endif %} · {{ poem.word_count | default(0) | int | wordcount_label }}</p>
+            <p class="work-byline">{{ poem.author }} · {{ poem.word_count | default(0) | int | wordcount_label }}</p>
           </header>
           <div class="work-text work-text--poem">{{ poem.text | nl2br }}</div>
           {% if poem.source_url %}
@@ -154,7 +154,7 @@
           <div class="source-panel" id="essay-panel-local">
             <header class="work-header">
               <h2 class="work-title">{{ essay.title }}</h2>
-              <p class="work-byline">{{ essay.author }}{% if essay.year %} · {{ essay.year }}{% endif %} · {{ essay.word_count | default(0) | int | wordcount_label }}</p>
+              <p class="work-byline">{{ essay.author }} · {{ essay.word_count | default(0) | int | wordcount_label }}</p>
             </header>
             <div class="work-text">{{ essay.text | nl2br }}</div>
             {% if essay.source_url %}

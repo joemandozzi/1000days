@@ -4,12 +4,13 @@ build.py — entry point for the static site generator.
 Usage:
   python build.py              # build today's page
   python build.py 2026-06-10   # build a specific date
+  python build.py --all        # build every date from launch to today
 
 Output goes to site/. Open site/index.html in a browser.
 """
 import sys
 import shutil
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -20,10 +21,11 @@ from external_picks import get_external_picks
 
 
 # ── paths ──────────────────────────────────────────────────────────────────
-ROOT      = Path(__file__).parent
-TEMPLATES = ROOT / "templates"
-STATIC    = ROOT / "static"
-SITE      = ROOT / "site"
+ROOT        = Path(__file__).parent
+TEMPLATES   = ROOT / "templates"
+STATIC      = ROOT / "static"
+SITE        = ROOT / "site"
+LAUNCH_DATE = date(2026, 6, 10)
 
 
 # ── Jinja2 custom filters ──────────────────────────────────────────────────
@@ -42,7 +44,8 @@ def wordcount_label(n):
 
 
 # ── build ──────────────────────────────────────────────────────────────────
-def build(target_date: date):
+def _setup(today: date) -> tuple:
+    """One-time setup: init DB, copy static assets, create Jinja env. Returns (env, today_display)."""
     init_db()
 
     counts = count_by_type()
@@ -51,11 +54,9 @@ def build(target_date: date):
         print("  python ingest/poems.py")
         print("  python ingest/essays.py")
         print("  python ingest/stories.py")
-        # Build a placeholder page instead of failing.
 
     SITE.mkdir(exist_ok=True)
 
-    # Copy static assets.
     dest_static = SITE / "static"
     if dest_static.exists():
         shutil.rmtree(dest_static)
@@ -65,10 +66,15 @@ def build(target_date: date):
     env.filters["nl2br"] = nl2br
     env.filters["wordcount_label"] = wordcount_label
 
-    triad = pick_for_date(target_date)
-    date_display = target_date.strftime("%B %-d, %Y")  # e.g. "June 10, 2026"
+    return env, today.strftime("%B %-d, %Y")
+
+
+def _render_date(env, target_date: date, is_today: bool = False):
+    """Render one date's page. Always writes the dated permalink; also writes root if is_today."""
+    triad        = pick_for_date(target_date)
+    date_display = target_date.strftime("%B %-d, %Y")
     read_time    = reading_time_minutes(triad)
-    ext = get_external_picks(target_date)
+    ext          = get_external_picks(target_date)
 
     shared_ctx = dict(
         date_iso=target_date.isoformat(),
@@ -81,33 +87,56 @@ def build(target_date: date):
         ext_essay=ext.get("essay"),
     )
 
-    # Render the day page.
     day_tmpl = env.get_template("day.html")
-    day_html = day_tmpl.render(root="", **shared_ctx)
-    (SITE / "index.html").write_text(day_html, encoding="utf-8")
 
-    # Also write a permalink for the date.
+    # Always write the dated permalink.
     dated_dir = SITE / target_date.isoformat()
     dated_dir.mkdir(exist_ok=True)
-    day_html_dated = day_tmpl.render(root="../", **shared_ctx)
-    (dated_dir / "index.html").write_text(day_html_dated, encoding="utf-8")
+    (dated_dir / "index.html").write_text(
+        day_tmpl.render(root="../", **shared_ctx), encoding="utf-8"
+    )
 
-    # Render the about page.
-    about_html = env.get_template("about.html").render(root="", date_display=date_display)
-    (SITE / "about.html").write_text(about_html, encoding="utf-8")
+    # Today's date also becomes the root index and about page.
+    if is_today:
+        (SITE / "index.html").write_text(
+            day_tmpl.render(root="", **shared_ctx), encoding="utf-8"
+        )
+        about_html = env.get_template("about.html").render(root="", date_display=date_display)
+        (SITE / "about.html").write_text(about_html, encoding="utf-8")
 
-    print(f"Built site/ for {date_display}")
-    print(f"  story      : {triad['story']['title'] if triad.get('story') else 'none'}")
-    print(f"  poem       : {triad['poem']['title']  if triad.get('poem')  else 'none'}")
-    print(f"  essay      : {triad['essay']['title'] if triad.get('essay') else 'none'}")
-    print(f"  ext story  : {ext['story']['title']   if ext.get('story')   else 'none (Electric Literature fetch failed)'}")
-    print(f"  ext essay  : {ext['essay']['title']   if ext.get('essay')   else 'none (set NYT_API_KEY to enable)'}")
-    print(f"Open: site/index.html")
+        print(f"Built site/ for {date_display}")
+        print(f"  story      : {triad['story']['title'] if triad.get('story') else 'none'}")
+        print(f"  poem       : {triad['poem']['title']  if triad.get('poem')  else 'none'}")
+        print(f"  essay      : {triad['essay']['title'] if triad.get('essay') else 'none'}")
+        print(f"  ext story  : {ext['story']['title']   if ext.get('story')   else 'none'}")
+        print(f"  ext essay  : {ext['essay']['title']   if ext.get('essay')   else 'none'}")
+        print(f"Open: site/index.html")
+
+
+def build(target_date: date):
+    """Build a single date (also writes root index/about)."""
+    env, _ = _setup(target_date)
+    _render_date(env, target_date, is_today=True)
+
+
+def build_all():
+    """Build every date from LAUNCH_DATE to today. Permalinks are permanent."""
+    today = date.today()
+    env, _ = _setup(today)
+    current = LAUNCH_DATE
+    count = 0
+    while current <= today:
+        _render_date(env, current, is_today=(current == today))
+        current += timedelta(days=1)
+        count += 1
+    print(f"Built {count} dated pages (launch → today).")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 1 and sys.argv[1] == "--all":
+        build_all()
+    elif len(sys.argv) > 1:
         target = datetime.strptime(sys.argv[1], "%Y-%m-%d").date()
+        build(target)
     else:
-        target = date.today()
-    build(target)
+        build(date.today())

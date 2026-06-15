@@ -1,11 +1,12 @@
-# 1,000 Nights
+# 1,000 Days
 
-> Read one short story, one poem, and one essay every night for 1,000 nights.
+> Read one short story, one poem, and one essay every day for 1,000 days.
 > — Ray Bradbury
 
-A static site serving one public-domain short story, poem, and essay per day.
+A static site serving one short story, poem, and essay per day — public domain in-app,
+or a contemporary pick from Electric Literature (stories) and NYT Magazine (essays).
 All works are real, curated, and sourced from Project Gutenberg, Standard Ebooks,
-and PoetryDB. Nothing is AI-generated.
+PoetryDB, Electric Literature, and the New York Times. Nothing is AI-generated.
 
 ## Setup
 
@@ -53,8 +54,15 @@ picker.py   — date-seeded daily selection logic
 
 ## Content sources
 
-- **Poems**: [PoetryDB](https://poetrydb.org) — ~3,000 public-domain poems
-- **Stories**: [Project Gutenberg](https://gutenberg.org) via Gutendex API
-- **Essays**: Harvard Classics vols. 27–28 (Gutenberg) + Standard Ebooks
+**Public domain (in-app reading)**
+- **Poems**: [PoetryDB](https://poetrydb.org) — 1,306 poems
+- **Stories**: [Project Gutenberg](https://gutenberg.org) + [Standard Ebooks](https://standardebooks.org) — 2,506 stories
+- **Essays**: Gutenberg + Standard Ebooks — 1,048 essays
 
-All works are US public domain (published ≤ 1930).
+All public-domain works are US public domain (published before 1928).
+
+**Contemporary picks (link out, cached locally)**
+- **Stories**: [Electric Literature](https://electricliterature.com) — 1,166 posts cached
+- **Essays**: [NYT Magazine](https://nytimes.com/section/magazine) — 900 articles, 1995–2024
+
+Refresh caches with `python scripts/refresh_cache.py`.
