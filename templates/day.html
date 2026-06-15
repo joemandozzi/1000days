@@ -89,16 +89,37 @@
 
         {% if story %}
         <article class="work work--story" id="work-story">
-          <header class="work-header">
-            <span class="work-badge work-badge--story">Story</span>
-            <h2 class="work-title">{{ story.title }}</h2>
-            <p class="work-byline">{{ story.author }}{% if story.year %} · {{ story.year }}{% endif %} · {{ story.word_count | default(0) | int | wordcount_label }}</p>
-          </header>
-          <div class="work-text">{{ story.text | nl2br }}</div>
-          {% if story.source_url %}
-          <footer class="work-source">
-            <a href="{{ story.source_url }}" target="_blank" rel="noopener">Source</a>{% if story.source_name %} · {{ story.source_name }}{% endif %}
-          </footer>
+          <span class="work-badge work-badge--story">Story</span>
+
+          {% if ext_story %}
+          <div class="source-toggle">
+            <button class="source-btn is-active" data-work="story" data-source="local">Public Domain</button>
+            <button class="source-btn" data-work="story" data-source="external">Electric Literature</button>
+          </div>
+          {% endif %}
+
+          <div class="source-panel" id="story-panel-local">
+            <header class="work-header">
+              <h2 class="work-title">{{ story.title }}</h2>
+              <p class="work-byline">{{ story.author }}{% if story.year %} · {{ story.year }}{% endif %} · {{ story.word_count | default(0) | int | wordcount_label }}</p>
+            </header>
+            <div class="work-text">{{ story.text | nl2br }}</div>
+            {% if story.source_url %}
+            <footer class="work-source">
+              <a href="{{ story.source_url }}" target="_blank" rel="noopener">Source</a>{% if story.source_name %} · {{ story.source_name }}{% endif %}
+            </footer>
+            {% endif %}
+          </div>
+
+          {% if ext_story %}
+          <div class="source-panel source-panel--hidden" id="story-panel-external">
+            <header class="work-header">
+              <h2 class="work-title">{{ ext_story.title }}</h2>
+              <p class="work-byline">{{ ext_story.author }}</p>
+            </header>
+            <p class="ext-excerpt">{{ ext_story.excerpt }}</p>
+            <a href="{{ ext_story.url }}" target="_blank" rel="noopener" class="ext-read-link">Read on {{ ext_story.source_name }} →</a>
+          </div>
           {% endif %}
         </article>
         {% endif %}
@@ -121,16 +142,37 @@
 
         {% if essay %}
         <article class="work work--essay" id="work-essay">
-          <header class="work-header">
-            <span class="work-badge work-badge--essay">Essay</span>
-            <h2 class="work-title">{{ essay.title }}</h2>
-            <p class="work-byline">{{ essay.author }}{% if essay.year %} · {{ essay.year }}{% endif %} · {{ essay.word_count | default(0) | int | wordcount_label }}</p>
-          </header>
-          <div class="work-text">{{ essay.text | nl2br }}</div>
-          {% if essay.source_url %}
-          <footer class="work-source">
-            <a href="{{ essay.source_url }}" target="_blank" rel="noopener">Source</a>{% if essay.source_name %} · {{ essay.source_name }}{% endif %}
-          </footer>
+          <span class="work-badge work-badge--essay">Essay</span>
+
+          {% if ext_essay %}
+          <div class="source-toggle">
+            <button class="source-btn is-active" data-work="essay" data-source="local">Public Domain</button>
+            <button class="source-btn" data-work="essay" data-source="external">NYT Magazine</button>
+          </div>
+          {% endif %}
+
+          <div class="source-panel" id="essay-panel-local">
+            <header class="work-header">
+              <h2 class="work-title">{{ essay.title }}</h2>
+              <p class="work-byline">{{ essay.author }}{% if essay.year %} · {{ essay.year }}{% endif %} · {{ essay.word_count | default(0) | int | wordcount_label }}</p>
+            </header>
+            <div class="work-text">{{ essay.text | nl2br }}</div>
+            {% if essay.source_url %}
+            <footer class="work-source">
+              <a href="{{ essay.source_url }}" target="_blank" rel="noopener">Source</a>{% if essay.source_name %} · {{ essay.source_name }}{% endif %}
+            </footer>
+            {% endif %}
+          </div>
+
+          {% if ext_essay %}
+          <div class="source-panel source-panel--hidden" id="essay-panel-external">
+            <header class="work-header">
+              <h2 class="work-title">{{ ext_essay.title }}</h2>
+              <p class="work-byline">{{ ext_essay.author }}</p>
+            </header>
+            <p class="ext-excerpt">{{ ext_essay.excerpt }}</p>
+            <a href="{{ ext_essay.url }}" target="_blank" rel="noopener" class="ext-read-link">Read on {{ ext_essay.source_name }} →</a>
+          </div>
           {% endif %}
         </article>
         {% endif %}
@@ -140,5 +182,6 @@
   </div>
 
   <script src="{{ root }}static/streak.js"></script>
+  <script src="{{ root }}static/source-toggle.js"></script>
 </body>
 </html>

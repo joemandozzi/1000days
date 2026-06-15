@@ -16,6 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from corpus.db import init_db, count_by_type
 from picker import pick_for_date, reading_time_minutes
+from external_picks import get_external_picks
 
 
 # ── paths ──────────────────────────────────────────────────────────────────
@@ -67,32 +68,28 @@ def build(target_date: date):
     triad = pick_for_date(target_date)
     date_display = target_date.strftime("%B %-d, %Y")  # e.g. "June 10, 2026"
     read_time    = reading_time_minutes(triad)
+    ext = get_external_picks(target_date)
 
-    # Render the day page.
-    day_tmpl = env.get_template("day.html")
-    day_html = day_tmpl.render(
-        root="",
+    shared_ctx = dict(
         date_iso=target_date.isoformat(),
         date_display=date_display,
         read_time=read_time,
         story=triad.get("story"),
         poem=triad.get("poem"),
         essay=triad.get("essay"),
+        ext_story=ext.get("story"),
+        ext_essay=ext.get("essay"),
     )
+
+    # Render the day page.
+    day_tmpl = env.get_template("day.html")
+    day_html = day_tmpl.render(root="", **shared_ctx)
     (SITE / "index.html").write_text(day_html, encoding="utf-8")
 
     # Also write a permalink for the date.
     dated_dir = SITE / target_date.isoformat()
     dated_dir.mkdir(exist_ok=True)
-    day_html_dated = day_tmpl.render(
-        root="../",
-        date_iso=target_date.isoformat(),
-        date_display=date_display,
-        read_time=read_time,
-        story=triad.get("story"),
-        poem=triad.get("poem"),
-        essay=triad.get("essay"),
-    )
+    day_html_dated = day_tmpl.render(root="../", **shared_ctx)
     (dated_dir / "index.html").write_text(day_html_dated, encoding="utf-8")
 
     # Render the about page.
@@ -100,9 +97,11 @@ def build(target_date: date):
     (SITE / "about.html").write_text(about_html, encoding="utf-8")
 
     print(f"Built site/ for {date_display}")
-    print(f"  story : {triad['story']['title'] if triad.get('story') else 'none'}")
-    print(f"  poem  : {triad['poem']['title']  if triad.get('poem')  else 'none'}")
-    print(f"  essay : {triad['essay']['title'] if triad.get('essay') else 'none'}")
+    print(f"  story      : {triad['story']['title'] if triad.get('story') else 'none'}")
+    print(f"  poem       : {triad['poem']['title']  if triad.get('poem')  else 'none'}")
+    print(f"  essay      : {triad['essay']['title'] if triad.get('essay') else 'none'}")
+    print(f"  ext story  : {ext['story']['title']   if ext.get('story')   else 'none (Electric Literature fetch failed)'}")
+    print(f"  ext essay  : {ext['essay']['title']   if ext.get('essay')   else 'none (set NYT_API_KEY to enable)'}")
     print(f"Open: site/index.html")
 
 

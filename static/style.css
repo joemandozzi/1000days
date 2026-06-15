@@ -329,6 +329,62 @@ body.day-page.reader-open {
   color: rgba(0, 0, 0, 0.45);
 }
 
+/* ── Source toggle (Public Domain / Electric Lit / NYT Magazine) ── */
+.source-toggle {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 28px;
+}
+
+.source-btn {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  border: 1px solid #002AFF;
+  color: #002AFF;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.source-btn.is-active {
+  background: #002AFF;
+  color: #E8E0D3;
+}
+
+.source-panel--hidden {
+  display: none;
+}
+
+/* External panel — excerpt + link */
+.ext-excerpt {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #000;
+  margin-bottom: 28px;
+}
+
+.ext-read-link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #E8E0D3;
+  background: #002AFF;
+  padding: 10px 20px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.ext-read-link:hover {
+  background: #001fcc;
+}
+
 /* ============================================================
    ABOUT PAGE
    ============================================================ */
