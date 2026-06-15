@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ root }}static/style.css">
+  <link rel="stylesheet" href="{{ root }}static/style.css?v={{ date_iso }}">
 </head>
 <body class="day-page">
 
@@ -181,7 +181,7 @@
 
   </div>
 
-  <script src="{{ root }}static/streak.js"></script>
-  <script src="{{ root }}static/source-toggle.js"></script>
+  <script src="{{ root }}static/streak.js?v={{ date_iso }}"></script>
+  <script src="{{ root }}static/source-toggle.js?v={{ date_iso }}"></script>
 </body>
 </html>
