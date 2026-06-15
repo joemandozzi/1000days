@@ -176,7 +176,7 @@ def ingest_montaigne(text: str) -> tuple[int, int]:
         body = clean_text(text[body_start:body_end])
 
         source_url = "https://www.gutenberg.org/ebooks/3600"
-        ok, reason = insert(title, "Michel de Montaigne", 1580, body, source_url, "Project Gutenberg")
+        ok, reason = insert(title, "Michel de Montaigne", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -215,7 +215,7 @@ def ingest_bacon(text: str) -> tuple[int, int]:
         title = m.group(1).strip()
         body = clean_text(body)
         source_url = "https://www.gutenberg.org/ebooks/575"
-        ok, reason = insert(title, "Francis Bacon", 1625, body, source_url, "Project Gutenberg")
+        ok, reason = insert(title, "Francis Bacon", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -262,7 +262,7 @@ def ingest_lamb(text: str) -> tuple[int, int]:
         body = clean_text(text[body_start:body_end])
 
         source_url = "https://www.gutenberg.org/ebooks/10343"
-        ok, reason = insert(title, "Charles Lamb", 1823, body, source_url, "Project Gutenberg")
+        ok, reason = insert(title, "Charles Lamb", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -295,7 +295,7 @@ def ingest_johnson(texts: list[str]) -> tuple[int, int]:
 
             title = f"The Rambler, No. {number}"
             source_url = "https://www.gutenberg.org/ebooks/43656"
-            ok, reason = insert(title, "Samuel Johnson", 1750, body, source_url, "Project Gutenberg")
+            ok, reason = insert(title, "Samuel Johnson", None, body, source_url, "Project Gutenberg")
             if ok:
                 added += 1
             else:
@@ -366,7 +366,7 @@ def ingest_woolf(text: str) -> tuple[int, int]:
     added = skipped = 0
     source_url = "https://www.gutenberg.org/ebooks/64457"
     for title, body in candidates:
-        ok, _ = insert(title, "Virginia Woolf", 1925, body, source_url, "Project Gutenberg")
+        ok, _ = insert(title, "Virginia Woolf", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -399,7 +399,7 @@ def ingest_beerbohm_yet_again(text: str) -> tuple[int, int]:
         body_start = m.end()
         body_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
         body = clean_text(text[body_start:body_end])
-        ok, _ = insert(title, "Max Beerbohm", 1909, body, source_url, "Project Gutenberg")
+        ok, _ = insert(title, "Max Beerbohm", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -424,7 +424,7 @@ def _ingest_chesterton_all_things(text: str) -> tuple[int, int]:
         body_start = m.end()
         body_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
         body = clean_text(text[body_start:body_end])
-        ok, _ = insert(title, "G.K. Chesterton", 1908, body, source_url, "Project Gutenberg")
+        ok, _ = insert(title, "G.K. Chesterton", None, body, source_url, "Project Gutenberg")
         if ok:
             added += 1
         else:
@@ -434,25 +434,25 @@ def _ingest_chesterton_all_things(text: str) -> tuple[int, int]:
 
 # ── main ──────────────────────────────────────────────────────────────────────
 
-def _mencken_fn(vol, year, gid):
+def _mencken_fn(gid):
     def fn(text):
         return ingest_roman_numeral_essays(
-            text, "H.L. Mencken", year,
+            text, "H.L. Mencken", None,
             f"https://www.gutenberg.org/ebooks/{gid}"
         )
     return fn
 
-def _chesterton_fn(year, gid):
+def _chesterton_fn(gid):
     def fn(text):
         return ingest_roman_numeral_essays(
-            text, "G.K. Chesterton", year,
+            text, "G.K. Chesterton", None,
             f"https://www.gutenberg.org/ebooks/{gid}"
         )
     return fn
 
 def _russell_fn(text):
     return ingest_roman_numeral_essays(
-        text, "Bertrand Russell", 1918,
+        text, "Bertrand Russell", None,
         "https://www.gutenberg.org/ebooks/25447"
     )
 
@@ -461,12 +461,12 @@ SOURCES = {
     "montaigne":              (3600,  "Montaigne's Essays",               ingest_montaigne),
     "bacon":                  (575,   "Bacon's Essays",                   ingest_bacon),
     "lamb":                   (10343, "Essays of Elia",                   ingest_lamb),
-    "mencken_1":              (53538, "Prejudices: First Series",         _mencken_fn(1, 1919, 53538)),
-    "mencken_2":              (53467, "Prejudices: Second Series",        _mencken_fn(2, 1920, 53467)),
-    "mencken_3":              (53474, "Prejudices: Third Series",         _mencken_fn(3, 1922, 53474)),
-    "mencken_5":              (72510, "Prejudices: Fifth Series",         _mencken_fn(5, 1926, 72510)),
+    "mencken_1":              (53538, "Prejudices: First Series",         _mencken_fn(53538)),
+    "mencken_2":              (53467, "Prejudices: Second Series",        _mencken_fn(53467)),
+    "mencken_3":              (53474, "Prejudices: Third Series",         _mencken_fn(53474)),
+    "mencken_5":              (72510, "Prejudices: Fifth Series",         _mencken_fn(72510)),
     "woolf":                  (64457, "The Common Reader",                ingest_woolf),
-    "chesterton_trifles":     (8092,  "Tremendous Trifles",              _chesterton_fn(1909, 8092)),
+    "chesterton_trifles":     (8092,  "Tremendous Trifles",              _chesterton_fn(8092)),
     "chesterton_all_things":  (11505, "All Things Considered",           _ingest_chesterton_all_things),
     "russell":                (25447, "Mysticism and Logic",              _russell_fn),
     "beerbohm_yet_again":     (2292,  "Yet Again",                       ingest_beerbohm_yet_again),
