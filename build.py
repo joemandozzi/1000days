@@ -44,8 +44,8 @@ def wordcount_label(n):
 
 
 # ── build ──────────────────────────────────────────────────────────────────
-def _setup(today: date) -> tuple:
-    """One-time setup: init DB, copy static assets, create Jinja env. Returns (env, today_display)."""
+def _setup() -> Environment:
+    """One-time setup: init DB, copy static assets, create Jinja env."""
     init_db()
 
     counts = count_by_type()
@@ -66,7 +66,7 @@ def _setup(today: date) -> tuple:
     env.filters["nl2br"] = nl2br
     env.filters["wordcount_label"] = wordcount_label
 
-    return env, today.strftime("%B %-d, %Y")
+    return env
 
 
 def _render_date(env, target_date: date, is_today: bool = False):
@@ -115,14 +115,14 @@ def _render_date(env, target_date: date, is_today: bool = False):
 
 def build(target_date: date):
     """Build a single date (also writes root index/about)."""
-    env, _ = _setup(target_date)
+    env = _setup()
     _render_date(env, target_date, is_today=True)
 
 
 def build_all():
     """Build every date from LAUNCH_DATE to today. Permalinks are permanent."""
     today = date.today()
-    env, _ = _setup(today)
+    env = _setup()
     current = LAUNCH_DATE
     count = 0
     while current <= today:

@@ -6,7 +6,6 @@ such that the combined reading time never exceeds 60 minutes.
 
 Rules:
 - Seed is the ISO date string so the triad is deterministic and reproducible.
-- Unserved works are preferred; once all are served the pool resets.
 - Works are weighted by inverse word count (shorter = more likely).
 - Combined word count is capped at COMBINED_MAX (60 min at 200 wpm).
   Picks happen in order: poem → story → essay, each constrained by

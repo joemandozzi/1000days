@@ -55,9 +55,9 @@ picker.py   — date-seeded daily selection logic
 ## Content sources
 
 **Public domain (in-app reading)**
-- **Poems**: [PoetryDB](https://poetrydb.org) — 1,306 poems
-- **Stories**: [Project Gutenberg](https://gutenberg.org) + [Standard Ebooks](https://standardebooks.org) — 2,506 stories
-- **Essays**: Gutenberg + Standard Ebooks — 1,048 essays
+- **Poems**: [PoetryDB](https://poetrydb.org) + [Standard Ebooks](https://standardebooks.org) — 1,893 poems (1,310 + 583)
+- **Stories**: [Standard Ebooks](https://standardebooks.org) + [Project Gutenberg](https://gutenberg.org) — 2,483 stories (2,466 + 17)
+- **Essays**: [Project Gutenberg](https://gutenberg.org) + [Standard Ebooks](https://standardebooks.org) — 1,219 essays (1,078 + 141)
 
 All public-domain works are US public domain (published before 1928).
 

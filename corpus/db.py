@@ -27,8 +27,7 @@ def init_db():
                 word_count  INTEGER,
                 text        TEXT NOT NULL,
                 source_url  TEXT,
-                source_name TEXT,
-                served      INTEGER NOT NULL DEFAULT 0
+                source_name TEXT
             )
         """)
         conn.commit()
@@ -69,7 +68,3 @@ def get_works_by_type(work_type):
         ).fetchall()
 
 
-def mark_served(work_id):
-    with get_conn() as conn:
-        conn.execute("UPDATE works SET served=1 WHERE id=?", (work_id,))
-        conn.commit()
